@@ -1,0 +1,53 @@
+<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"
+         version="5.0">
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.RegisterServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.LoginServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.HomeServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MovieDetailsServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.MovieDetailsServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MovieDetailsServlet</servlet-name>
+    <url-pattern>/movies/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>BookTicketServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.BookTicketServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>BookTicketServlet</servlet-name>
+    <url-pattern>/bookTicket/*</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
