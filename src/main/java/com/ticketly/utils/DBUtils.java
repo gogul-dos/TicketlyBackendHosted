@@ -1,18 +1,18 @@
 package com.ticketly.utils;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.io.File;
 
 public class DBUtils {
-	private static final String URL = "jdbc:mysql://shinkansen.proxy.rlwy.net:44499/railway";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "yrmVxcyBXiztuNJBvFkLWrvMLTufaXkM";
-	
-	public static Connection getConnection() throws SQLException, ClassNotFoundException {
-	    Class.forName("com.mysql.cj.jdbc.Driver");
-	    return DriverManager.getConnection(
-	        URL,
-	        USERNAME,
-	        PASSWORD
-	    );
-	}
+    private static final String DB_PATH;
 
+    static {
+    	File dbFile = new File("src/main/webapp/ticketly.db");
+        DB_PATH = "jdbc:sqlite:" + dbFile.getAbsolutePath();
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_PATH);
+    }
 }

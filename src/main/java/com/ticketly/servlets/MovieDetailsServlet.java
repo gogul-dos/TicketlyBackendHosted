@@ -11,11 +11,9 @@ import com.ticketly.utils.DBUtils;
 import com.ticketly.utils.JwtUtil;
 
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 
 public class MovieDetailsServlet extends HttpServlet {
 
@@ -45,19 +43,18 @@ public class MovieDetailsServlet extends HttpServlet {
                 return;
             }
 
-
-            String pathInfo = req.getPathInfo(); // returns "/5"
-            if (pathInfo == null || pathInfo.length() <= 1) {
+            String pathInfo = req.getPathInfo(); // e.g. "/5"
+            if (pathInfo == null || pathInfo.length() <= 1 || !pathInfo.substring(1).matches("\\d+")) {
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
-            int movieId = Integer.parseInt(pathInfo.substring(1));
-            System.out.println(movieId);
-            String query = "SELECT * FROM movies WHERE movie_id = ?";
 
+            int movieId = Integer.parseInt(pathInfo.substring(1));
+
+            String query = "SELECT * FROM movies WHERE movie_id = ?";
             try (
-                Connection connection = DBUtils.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(query)
+                Connection conn = DBUtils.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)
             ) {
                 stmt.setInt(1, movieId);
                 ResultSet rs = stmt.executeQuery();
@@ -77,23 +74,25 @@ public class MovieDetailsServlet extends HttpServlet {
                     movie.put("created_at", rs.getString("created_at"));
                     movie.put("updated_at", rs.getString("updated_at"));
 
-                    PrintWriter out = res.getWriter();
-                    out.print(movie.toString());
-                    out.flush();
+                    try (PrintWriter out = res.getWriter()) {
+                        out.print(movie.toString());
+                        out.flush();
+                    }
                 } else {
                     res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    res.getWriter().write("{\"error\":\"Movie not found\"}");
                 }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
         }
     }
 
     private void setCorsHeaders(HttpServletResponse res) {
         res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         res.setHeader("Access-Control-Allow-Credentials", "true");
     }

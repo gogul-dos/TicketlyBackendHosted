@@ -32,6 +32,7 @@ public class RegisterServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
@@ -109,7 +110,7 @@ public class RegisterServlet extends HttpServlet {
     private boolean insertIntoDb(String password, String firstName, String lastName,
                                  String email, Long mobile, java.sql.Date dob) {
         try (Connection connection = DBUtils.getConnection()) {
-            String sql = "INSERT INTO users (first_name, last_name, password, email, mobile_number, dob) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO users (first_name, last_name, password, email, mobile_number, dob) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             String hashedPassword = PasswordUtil.hashPassword(password);
             stmt.setString(1, firstName);
@@ -117,7 +118,7 @@ public class RegisterServlet extends HttpServlet {
             stmt.setString(3, hashedPassword);
             stmt.setString(4, email);
             stmt.setLong(5, mobile);
-            stmt.setDate(6, dob);
+            stmt.setDate(6, dob); // Works because SQLite JDBC maps it to TEXT or INTEGER
             return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();

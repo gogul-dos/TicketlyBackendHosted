@@ -12,7 +12,6 @@ import com.ticketly.utils.DBUtils;
 import com.ticketly.utils.JwtUtil;
 
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,8 +31,6 @@ public class HomeServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
 
         try {
-            System.out.println("API Triggered");
-
             String authHeader = req.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -49,13 +46,13 @@ public class HomeServlet extends HttpServlet {
 
             System.out.println("Authenticated user: " + claim.getSubject());
 
-            String query = "SELECT movie_id, title, rating, poster_url,genre,trailer_url FROM movies";
+            String query = "SELECT movie_id, title, rating, poster_url, genre, trailer_url FROM movies";
 
             JSONArray moviesArray = new JSONArray();
 
             try (
-                Connection connection = DBUtils.getConnection();
-                Statement stmt = connection.createStatement();
+                Connection conn = DBUtils.getConnection();
+                Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)
             ) {
                 while (rs.next()) {
@@ -69,9 +66,10 @@ public class HomeServlet extends HttpServlet {
                     moviesArray.put(movie);
                 }
 
-                PrintWriter out = res.getWriter();
-                out.print(moviesArray.toString());
-                out.flush();
+                try (PrintWriter out = res.getWriter()) {
+                    out.print(moviesArray.toString());
+                    out.flush();
+                }
             }
 
         } catch (Exception e) {

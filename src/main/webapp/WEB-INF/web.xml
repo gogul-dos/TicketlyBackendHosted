@@ -1,14 +1,5 @@
 <web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"
          version="5.0">
-  <servlet>
-    <servlet-name>RegisterServlet</servlet-name>
-    <servlet-class>com.ticketly.servlets.RegisterServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>RegisterServlet</servlet-name>
-    <url-pattern>/register</url-pattern>
-  </servlet-mapping>
   
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
@@ -41,13 +32,64 @@
   </servlet-mapping>
   
   <servlet>
-    <servlet-name>BookTicketServlet</servlet-name>
-    <servlet-class>com.ticketly.servlets.BookTicketServlet</servlet-class>
+    <servlet-name>TheatreDetailsServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.TheatreDetailsServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>BookTicketServlet</servlet-name>
-    <url-pattern>/bookTicket/*</url-pattern>
+    <servlet-name>TheatreDetailsServlet</servlet-name>
+    <url-pattern>/theatreDetails/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ShowDetailsServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.ShowDetailsServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ShowDetailsServlet</servlet-name>
+    <url-pattern>/shows</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>SeatLayoutServlet</servlet-name>
+  <servlet-class>com.ticketly.servlets.SeatLayoutServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>SeatLayoutServlet</servlet-name>
+  <url-pattern>/seats</url-pattern>
+</servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>com.ticketly.servlets.RegisterServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>BookSeatServlet</servlet-name>
+  <servlet-class>com.ticketly.servlets.BookSeatServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>BookSeatServlet</servlet-name>
+  <url-pattern>/book</url-pattern>
+</servlet-mapping>
+
+<servlet>
+  <servlet-name>MyBookingsServlet</servlet-name>
+  <servlet-class>com.ticketly.servlets.MyBookingsServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>MyBookingsServlet</servlet-name>
+  <url-pattern>/mybookings</url-pattern>
+</servlet-mapping>
+
   
 </web-app>
